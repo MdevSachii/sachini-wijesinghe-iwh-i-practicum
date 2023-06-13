@@ -1,0 +1,23 @@
+doctype html
+html 
+    head 
+        title= `${title}`
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        link(rel="stylesheet" href="/css/style.css")
+    body   
+        h1 Custom Object Table 
+        a(href="/contacts") Add/
+        a(href="/update") Update this table
+
+        br
+        br
+        table(style='width:100%')
+            tr
+                th Book Name
+                th Auther
+                th Book Price
+            each books in data
+                tr
+                    td #{books.properties.book_name}
+                    td #{books.properties.auther} 
+                    td $ #{books.properties.book_price} 
