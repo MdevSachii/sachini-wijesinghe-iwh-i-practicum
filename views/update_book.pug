@@ -5,19 +5,16 @@ html
         meta(name="viewport" content="width=device-width, initial-scale=1")
         link(rel="stylesheet" href="/css/style.css")
     body   
-        h1 Custom Object Table 
-        a(href="/add") Add/
-        a(href="/book-update") Update this table
-
-        br
-        br
+        h1 Book Update Table 
         table(style='width:100%')
             tr
                 th Book Name
                 th Auther
                 th Book Price
-            each books in data
+            each books in data 
                 tr
                     td #{books.properties.book_name}
                     td #{books.properties.auther} 
                     td $ #{books.properties.book_price} 
+                    td 
+                        a(href="/update-cobj?ObjectId="+ books.id) edit 

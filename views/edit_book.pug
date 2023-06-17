@@ -1,0 +1,18 @@
+doctype html
+html(lang="en")
+    head
+        title Update contact info
+        link(rel="stylesheet", href="/css/style.css")
+    body
+        .form-wrapper
+            p Book Name: #{book_Name}
+            p Auther: #{book_auther}
+            p Book price: $ #{book_Price}
+            form(method="POST")
+                label(for="bookName") Book Name
+                input(type="text" name="bookName")
+                label(for="bookAuther") Book Auther
+                input(type="text" name="bookAuther")
+                label(for="bookPrice") Book Price
+                input(type="number" name="bookPrice")
+                input(type="submit" value="Submit")

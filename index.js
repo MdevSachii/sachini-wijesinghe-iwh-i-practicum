@@ -41,6 +41,7 @@ app.get('/', async (req, res) => {
     }
 });
 
+// Book add view
 app.get('/add', async (req, res) => {
     res.render('add_books', { title: 'Update Custom Object Form | Integrating With HubSpot I Practicum' });
 });
@@ -68,7 +69,72 @@ app.post('/add', async (req, res) => {
     }
 });
 
+// Books update table view
+app.get('/book-update', async (req, res) => {
+    const book = 'https://api.hubapi.com/crm/v3/objects/book/?properties=book_name&properties=auther&properties=book_price&archived=false';
+    const headers = {
+        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    }
+    try {
+        const resp = await axios.get(book, { headers });
+        const data = resp.data.results;
+        res.render('update_book', { title: 'Update Custom Object Form | Integrating With HubSpot I Practicum', data });      
+    } catch (error) {
+        console.error(error);
+    }
+});
 
+
+// Book update view
+app.get('/update-cobj', async (req, res) => {
+
+    const id = req.query.ObjectId;
+
+    const getBook = `https://api.hubapi.com/crm/v3/objects/book/${id}?properties=book_name,auther,book_price`;
+    const headers = {
+        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    };
+
+    try {
+        const response = await axios.get(getBook, { headers });
+        const data = response.data;
+
+        res.render('edit_book', {book_Name: data.properties.book_name, book_auther: data.properties.auther, book_Price: data.properties.book_price});
+        
+    } catch(err) {
+        console.error(err);
+    }
+});
+
+app.post('/update-cobj', async (req, res) => {
+    
+    const update = {
+        properties: {
+            "book_name": req.body.bookName,
+            "auther": req.body.bookAuther,
+            "book_price": req.body.bookPrice,
+        }
+    }
+
+    const id = req.query.ObjectId;
+    const updateBook = `https://api.hubapi.com/crm/v3/objects/book/${id}`;
+    const headers = {
+        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    };
+
+    try { 
+        await axios.patch(updateBook, update, { headers } );
+        res.redirect('back');
+    } catch(err) {
+        console.error(err);
+    }
+
+});
+
+// Testing contact in folk master
 app.get('/contacts', async (req, res) => {
     const contacts = 'https://api.hubspot.com/crm/v3/objects/contacts';
     const headers = {
