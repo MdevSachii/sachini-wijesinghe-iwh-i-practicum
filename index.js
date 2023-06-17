@@ -41,6 +41,33 @@ app.get('/', async (req, res) => {
     }
 });
 
+app.get('/add', async (req, res) => {
+    res.render('add_books', { title: 'Update Custom Object Form | Integrating With HubSpot I Practicum' });
+});
+
+app.post('/add', async (req, res) => {
+    const add = {
+        properties: {
+            "book_name": req.body.bookName,
+            "auther": req.body.bookAuther,
+            "book_price": req.body.bookPrice,
+        }
+    }
+
+    const addBooks = `https://api.hubapi.com/crm/v3/objects/book`;
+    const headers = {
+        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    };
+
+    try { 
+        await axios.post(addBooks, add, { headers } );
+        res.redirect('back');
+    } catch(err) {
+        console.error(err);
+    }
+});
+
 
 app.get('/contacts', async (req, res) => {
     const contacts = 'https://api.hubspot.com/crm/v3/objects/contacts';
