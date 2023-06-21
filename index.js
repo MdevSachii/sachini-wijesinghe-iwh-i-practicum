@@ -63,7 +63,10 @@ app.post('/add', async (req, res) => {
 
     try { 
         await axios.post(addBooks, add, { headers } );
-        res.redirect('back');
+        const book = 'https://api.hubapi.com/crm/v3/objects/book/?properties=book_name&properties=auther&properties=book_price&archived=false';
+        const resp = await axios.get(book, { headers });
+        const data = resp.data.results;
+        res.render('books', { title: 'Update Custom Object Form | Integrating With HubSpot I Practicum', data });
     } catch(err) {
         console.error(err);
     }
@@ -127,7 +130,10 @@ app.post('/update-cobj', async (req, res) => {
 
     try { 
         await axios.patch(updateBook, update, { headers } );
-        res.redirect('back');
+        const book = 'https://api.hubapi.com/crm/v3/objects/book/?properties=book_name&properties=auther&properties=book_price&archived=false';
+        const resp = await axios.get(book, { headers });
+        const data = resp.data.results;
+        res.render('books', { title: 'Update Custom Object Form | Integrating With HubSpot I Practicum', data });    
     } catch(err) {
         console.error(err);
     }
